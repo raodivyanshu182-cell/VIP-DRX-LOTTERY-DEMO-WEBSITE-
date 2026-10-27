@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIP DRX Lottery — Demo Wallet</title>
+<style>
+:root{color-scheme:dark;--gold:#f6c453;--blue:#0d1b3a;--panel:#14264a;--text:#f8fafc;--muted:#b8c4da}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(150deg,#071126,#102a54 60%,#050914);color:var(--text);min-height:100vh}
+main{max-width:520px;margin:0 auto;padding:22px 16px 36px}
+header{text-align:center;padding:18px 10px 22px}
+.crown{font-size:42px}
+h1{margin:6px 0;color:var(--gold);font-size:clamp(26px,7vw,36px);letter-spacing:1px}
+header p{margin:0;color:var(--muted)}
+.card{background:rgba(20,38,74,.94);border:1px solid #31466d;border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 12px 30px #0003}
+.label{color:var(--muted);font-size:14px}
+.balance{font-size:38px;font-weight:800;color:var(--gold);margin:8px 0}
+.pill{display:inline-block;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:5px 10px;font-size:12px}
+h2{font-size:19px;margin:0 0 14px}
+.ticket{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #31466d}
+.ticket:last-child{border-bottom:0}
+.ticket small{display:block;color:var(--muted);margin-top:4px}
+button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;background:var(--gold);color:#1c2230;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.history{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+.notice{font-size:12px;line-height:1.5;color:#d7dfed;text-align:center;padding:8px}
+#message{min-height:20px;color:var(--gold);font-size:14px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="crown">👑</div>
+<h1>VIP DRX LOTTERY</h1>
+<p>Interactive Demo Wallet</p>
+</header>
+<section class="card">
+<span class="pill">DEMO ACCOUNT</span>
+<p class="label">Available demo balance</p>
+<div class="balance" id="balance">₹1,000</div>
+<p class="label">यह काल्पनिक डेमो पॉइंट्स हैं — असली पैसा नहीं।</p>
+</section>
+<section class="card">
+<h2>🎟️ Demo Tickets</h2>
+<div class="ticket">
+<div><strong>Demo Ticket 001</strong><small>डेमो कीमत: ₹100</small></div>
+<button data-ticket="001">चुनें ₹100</button>
+</div>
+<div class="ticket">
+<div><strong>Demo Ticket 002</strong><small>डेमो कीमत: ₹100</small></div>
+<button data-ticket="002">चुनें ₹100</button>
+</div>
+<div class="ticket">
+<div><strong>Demo Ticket 003</strong><small>डेमो कीमत: ₹100</small></div>
+<button data-ticket="003">चुनें ₹100</button>
+</div>
+<div id="message" aria-live="polite"></div>
+</section>
+<section class="card">
+<h2>📋 Demo Transaction History</h2>
+<ul class="history" id="history"><li>शुरुआती डेमो बैलेंस: ₹1,000</li></ul>
+</section>
+<p class="notice">केवल सीखने और प्रदर्शन के लिए। इसमें जमा, निकासी, वास्तविक टिकट बिक्री या नकद इनाम नहीं हैं। पेज रीफ्रेश करने पर डेमो बैलेंस फिर ₹1,000 हो जाएगा।</p>
+</main>
+<script>
+let balance = 1000;
+const balanceEl = document.getElementById('balance');
+const historyEl = document.getElementById('history');
+const messageEl = document.getElementById('message');
+function render(){balanceEl.textContent='₹'+balance.toLocaleString('en-IN');document.querySelectorAll('[data-ticket]').forEach(btn=>btn.disabled=balance<100);}
+document.querySelectorAll('[data-ticket]').forEach(btn=>btn.addEventListener('click',()=>{
+ const ticket=btn.dataset.ticket;
+ if(balance<100){messageEl.textContent='डेमो बैलेंस पर्याप्त नहीं है।';return;}
+ balance-=100;
+ const item=document.createElement('li');
+ item.textContent=`Demo Ticket ${ticket} चुना — डेमो खर्च ₹100; बाकी बैलेंस ₹${balance.toLocaleString('en-IN')}`;
+ historyEl.prepend(item);
+ messageEl.textContent=`टिकट ${ticket} चुना गया। नया डेमो बैलेंस ₹${balance.toLocaleString('en-IN')} है।`;
+ render();
+}));
+render();
+</script>
+</body>
+</html>
